@@ -28,6 +28,8 @@ function Register() {
     })
       .then(() => {
         flushSync(() => {
+          localStorage.setItem('passwordHash', passwordHash)
+          localStorage.setItem('userName', username)
           setPasswordHash(passwordHash)
           setUserName(username)
         })
