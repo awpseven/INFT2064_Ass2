@@ -1,15 +1,59 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
+import { flushSync } from 'react-dom'
+import axios from 'axios'
+import SHA256 from 'crypto-js/sha256'
+import { useAuth } from '../../utils/auth'
+import { toast, Bounce } from 'react-toastify'
 
 function Login() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
+  const { setPasswordHash, setUserName } = useAuth()
+  const passwordHash = SHA256(password).toString()
   const navigate = useNavigate()
 
   const handleLogin = () => {
-    navigate('/', { replace: true })
+    console.log('start loging: ', username, passwordHash)
+
+    axios
+      .post('/api/Login', {
+        userName: username,
+        passwordHash: passwordHash,
+      })
+      .then(() => {
+        flushSync(() => {
+          setPasswordHash(passwordHash)
+          setUserName(username)
+        })
+        toast('Directing to dashboard ...', {
+          position: 'top-right',
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+          transition: Bounce,
+        })
+        navigate('/', { replace: true })
+      })
+      .catch((e) => {
+        console.log(e)
+        toast('Invalid username or password!', {
+          position: 'top-right',
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+          transition: Bounce,
+        })
+      })
   }
 
   return (
@@ -20,14 +64,14 @@ function Login() {
 
           <div className="w-full space-y-4">
             <div className="flex flex-col">
-              <label className="text-gray-700 text-sm mb-1">Email:</label>
+              <label className="text-gray-700 text-sm mb-1">Username:</label>
               <input
                 className="border border-gray-300 rounded p-2 w-full focus:outline-none focus:border-blue-500"
                 type="text"
-                name="email"
+                name="username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                placeholder="Enter your email"
+                placeholder="Enter username"
               />
             </div>
 
@@ -42,7 +86,6 @@ function Login() {
                 placeholder="Enter password"
               />
             </div>
-            {error && <p className="text-red-500 text-xs mt-2">{error}</p>}
           </div>
 
           <button

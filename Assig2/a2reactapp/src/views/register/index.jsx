@@ -1,5 +1,10 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
+import { flushSync } from 'react-dom'
+import axios from 'axios'
+import SHA256 from 'crypto-js/sha256'
+import { useAuth } from '../../utils/auth'
+import { toast, Bounce } from 'react-toastify'
 
 function Register() {
   const [username, setUsername] = useState('')
@@ -7,13 +12,51 @@ function Register() {
   const [confirm_password, setConfirmPassword] = useState('')
   const [error, setError] = useState('')
   const navigate = useNavigate()
-
-  const redirect = () => {
-    navigate('/login', { replace: true })
-  }
+  const { setPasswordHash, setUserName } = useAuth()
+  const passwordHash = SHA256(password).toString()
 
   const handleRegister = () => {
-    navigate('/login', { replace: true })
+    console.log('start register: ', username, passwordHash)
+
+    axios({
+      method: 'post',
+      url: '/api/Register',
+      params: {
+        userName: username,
+        passwordHash: passwordHash,
+      },
+    })
+      .then(() => {
+        flushSync(() => {
+          setPasswordHash(passwordHash)
+          setUserName(username)
+        })
+        toast('Register success! Directing to dashboard ...', {
+          position: 'top-right',
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+          transition: Bounce,
+        })
+        navigate('/', { replace: true })
+      })
+      .catch((e) => {
+        toast('Invalid username or password!', {
+          position: 'top-right',
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+          transition: Bounce,
+        })
+      })
   }
 
   const errorMsg =
@@ -35,14 +78,14 @@ function Register() {
 
           <div className="w-full space-y-4">
             <div className="flex flex-col">
-              <label className="text-gray-700 text-sm mb-1">Email:</label>
+              <label className="text-gray-700 text-sm mb-1">Username:</label>
               <input
                 className="border border-gray-300 rounded p-2 w-full focus:outline-none focus:border-blue-500"
                 type="text"
-                name="email"
+                name="username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                placeholder="Enter your email"
+                placeholder="Enter username"
               />
             </div>
 
@@ -54,7 +97,7 @@ function Register() {
                 name="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Create a password"
+                placeholder="Enter password"
               />
             </div>
 
