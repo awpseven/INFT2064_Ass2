@@ -30,7 +30,7 @@ export const Layout = () => {
           </div>
           <Icon
             onClick={() => logout(() => navigate('/login', { redirect: true }))}
-            className="text-3xl text-red-500"
+            className="text-3xl text-red-500 cursor-pointer"
             icon="material-symbols:logout"
           />
         </div>

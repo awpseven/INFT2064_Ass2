@@ -17,11 +17,14 @@ function Login() {
   const handleLogin = () => {
     console.log('start loging: ', username, passwordHash)
 
-    axios
-      .post('/api/Login', {
+    axios({
+      method: 'post',
+      url: '/api/Login',
+      params: {
         userName: username,
         passwordHash: passwordHash,
-      })
+      },
+    })
       .then(() => {
         flushSync(() => {
           setPasswordHash(passwordHash)
