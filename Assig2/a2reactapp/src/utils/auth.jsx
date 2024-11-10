@@ -1,4 +1,5 @@
 import { createContext, useContext, useMemo, useState } from 'react'
+import axios from 'axios'
 
 const AuthContext = createContext()
 
@@ -7,6 +8,19 @@ const AuthProvider = ({ children }) => {
   const [passwordHash, setPasswordHash] = useState(
     localStorage.getItem('passwordHash')
   )
+  const http = axios.create({
+    baseURL: 'http://localhost:5147',
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+      'Access-Control-Allow-Headers':
+        'X-Requested-With, content-type, Authorization',
+    },
+    proxy: {
+      host: 'localhost',
+      port: 3000,
+    },
+  })
 
   const logout = (redirect) => {
     setPasswordHash('')
@@ -22,6 +36,7 @@ const AuthProvider = ({ children }) => {
       passwordHash,
       setPasswordHash,
       logout,
+      http,
     }),
     [userName, passwordHash]
   )

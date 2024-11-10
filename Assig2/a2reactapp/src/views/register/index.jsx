@@ -12,13 +12,13 @@ function Register() {
   const [confirm_password, setConfirmPassword] = useState('')
   const [error, setError] = useState('')
   const navigate = useNavigate()
-  const { setPasswordHash, setUserName } = useAuth()
+  const { setPasswordHash, setUserName, http } = useAuth()
   const passwordHash = SHA256(password).toString()
 
   const handleRegister = () => {
     console.log('start register: ', username, passwordHash)
 
-    axios({
+    http({
       method: 'post',
       url: '/api/Register',
       params: {

@@ -10,14 +10,14 @@ import { toast, Bounce } from 'react-toastify'
 function Login() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const { setPasswordHash, setUserName } = useAuth()
+  const { setPasswordHash, setUserName, http } = useAuth()
   const passwordHash = SHA256(password).toString()
   const navigate = useNavigate()
 
   const handleLogin = () => {
     console.log('start loging: ', username, passwordHash)
 
-    axios({
+    http({
       method: 'post',
       url: '/api/Login',
       params: {
@@ -25,7 +25,22 @@ function Login() {
         passwordHash: passwordHash,
       },
     })
-      .then(() => {
+      .then((result) => {
+        if (result.data === false) {
+          toast('Invalid username or password!', {
+            position: 'top-right',
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'light',
+            transition: Bounce,
+          })
+          return
+        }
+
         flushSync(() => {
           localStorage.setItem('passwordHash', passwordHash)
           localStorage.setItem('userName', username)
@@ -48,7 +63,7 @@ function Login() {
       })
       .catch((e) => {
         console.log(e)
-        toast('Invalid username or password!', {
+        toast('Request error!', {
           position: 'top-right',
           autoClose: 3000,
           hideProgressBar: false,
