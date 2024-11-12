@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
-function LocationTable({ data, suburb, startTime, endTime, offenceCodes }) {
+function ReportTable({ data, suburb, startTime, endTime, offenceCodes }) {
   const [choose, setChoose] = useState([])
 
   const addLocation = (locationId) => {
@@ -75,7 +75,6 @@ function LocationTable({ data, suburb, startTime, endTime, offenceCodes }) {
               <th>Total Fee Sum</th>
               <th>Avg Demerits Per Day</th>
               <th>Avg Fee Per Day</th>
-              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -91,23 +90,6 @@ function LocationTable({ data, suburb, startTime, endTime, offenceCodes }) {
                   <td>{d.totalFeeSum}</td>
                   <td>{d.avgDemeritsPerDay}</td>
                   <td>{d.avgFeePerDay}</td>
-                  <td>
-                    {choose.indexOf(d.locationId) === -1 ? (
-                      <button
-                        type="button"
-                        onClick={() => addLocation(d.locationId)}
-                      >
-                        Choose
-                      </button>
-                    ) : (
-                      <button
-                        type="button"
-                        onClick={() => removeLocation(d.locationId)}
-                      >
-                        Cancel
-                      </button>
-                    )}
-                  </td>
                 </tr>
               ))}
           </tbody>
@@ -119,4 +101,4 @@ function LocationTable({ data, suburb, startTime, endTime, offenceCodes }) {
   // )
 }
 
-export default LocationTable
+export default ReportTable

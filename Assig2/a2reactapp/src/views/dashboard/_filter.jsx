@@ -9,12 +9,18 @@ function Filter({
   setExpiationStats,
   expiations,
   setExpiations,
+  suburb,
+  setSuburb,
+  offenceCodes,
+  setOffenceCodes,
+  startTime,
+  setStartTime,
+  endTime,
+  setEndTime,
 }) {
   const [suburbs, setSuburbs] = useState([])
-  const [suburb, setSuburb] = useState('')
   const [cameras, setCameras] = useState([])
-  const [startTime, setStartTime] = useState(new Date('1974-01-01'))
-  const [endTime, setEndTime] = useState(new Date())
+  const [isDefault, setIsDefault] = useState(false)
 
   const { http } = useAuth()
 
@@ -39,6 +45,13 @@ function Filter({
       transition: Bounce,
     })
   }
+
+  useEffect(() => {
+    if (isDefault) {
+      setStartTime(new Date('1974-01-01'))
+      setEndTime(new Date())
+    }
+  }, [isDefault])
 
   useEffect(() => {
     // load suburbs from backend
@@ -108,7 +121,7 @@ function Filter({
 
     // get start time
     // get end time
-    alert('start:' + startTime.getTime() + ',end:' + endTime.getTime())
+    // alert('start:' + startTime + ',end:' + endTime)
 
     setExpiationStats([])
 
@@ -118,8 +131,14 @@ function Filter({
       cameras.map(async (c, index) => {
         const locationId = c.locationId
         const cameraTypeCode = c.cameraTypeCode
-        const start = parseInt(startTime.getTime() / 1000)
-        const end = parseInt(endTime.getTime() / 1000)
+
+        let _startTime = new Date(startTime)
+        let _endTime = new Date(endTime)
+
+        console.log({ _startTime })
+        let start = parseInt(_startTime.getTime() / 1000)
+        let end = parseInt(_endTime.getTime() / 1000)
+
         const stat = await http({
           method: 'get',
           url: `/api/Get_ExpiationStatsForLocationId`,
@@ -185,18 +204,6 @@ function Filter({
         </div>
         <div className="flex flex-col space-y-4">
           <div className="flex items-center">
-            <label className="w-64" for="condition1">
-              Search:
-            </label>
-            <input
-              className="border border-gray-300 rounded p-2 w-full focus:outline-none focus:border-blue-500"
-              id="condition1"
-              type="text"
-              placeholder="Please enter your search keywords"
-              autoComplete="false"
-            />
-          </div>
-          <div className="flex items-center">
             <label className="w-64" for="suburb">
               Choose a Suburb:
             </label>
@@ -223,45 +230,49 @@ function Filter({
 
           <div className="flex items-center">
             <label className="w-64" for="camera">
-              Choose a Camera Location:
+              Offence codes (e.g A001,B001):
             </label>
             <input
               className="border border-gray-300 rounded p-2 w-full focus:outline-none focus:border-blue-500"
-              list="camera-list"
-              id="camera"
-              name="camera"
+              id="offenceCodes"
+              name="offenceCodes"
+              value={offenceCodes}
+              onChange={(e) => {
+                setOffenceCodes(e.target.value)
+              }}
             />
-
-            <datalist id="camera-list">
-              {cameras &&
-                cameras.map((c, index) => (
-                  <option key={index} value={c.locationId}>
-                    {c.roadName} - {c.cameraType1}
-                  </option>
-                ))}
-              <option value="Chocolate"></option>
-              <option value="Coconut"></option>
-              <option value="Mint"></option>
-              <option value="Strawberry"></option>
-              <option value="Vanilla"></option>
-            </datalist>
           </div>
 
           <div className="flex items-center">
-            <label className="w-64">From</label>
+            <label className="w-64">Offences Start From</label>
             <input
               value={startTime}
               onChange={(e) => setStartTime(e.target.value)}
               className="border border-gray-300 rounded p-2 w-full focus:border-blue-500"
               type="datetime-local"
             />
-            <label className="">To</label>
+            <label className="px-4">To</label>
             <input
               value={endTime}
               onChange={(e) => setEndTime(e.target.value)}
               className="border border-gray-300 rounded p-2 w-full focus:border-blue-500"
               type="datetime-local"
             />
+          </div>
+          <div class="flex items-center">
+            <input
+              onChange={(e) => setIsDefault(!isDefault)}
+              id="link-checkbox"
+              type="checkbox"
+              value={isDefault}
+              class="ml-56 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+            />
+            <label
+              for="link-checkbox"
+              class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+            >
+              Include All Offences Time
+            </label>
           </div>
           <button
             onClick={handleSearch}

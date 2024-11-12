@@ -15,13 +15,26 @@ function Dashboard() {
   const [currentTab, setCurrentTab] = useState(0)
   const navigate = useNavigate()
 
+  const [suburb, setSuburb] = useState('')
+  const [offenceCodes, setOffenceCodes] = useState('')
+  const [startTime, setStartTime] = useState(new Date('1974-01-01'))
+  const [endTime, setEndTime] = useState(new Date())
+
   const tabs = [
     {
       title: 'Table Data',
       icon: <Icon icon="majesticons:table" />,
       description:
         'This is the indicator data for all locations so that you can clearly know the specific value.',
-      content: <LocationTable data={expiationStats} />,
+      content: (
+        <LocationTable
+          data={expiationStats}
+          suburb={suburb}
+          startTime={startTime}
+          endTime={endTime}
+          offenceCodes={offenceCodes}
+        />
+      ),
     },
     {
       title: 'Ranks',
@@ -45,6 +58,14 @@ function Dashboard() {
         setExpiationStats={setExpiationStats}
         expiations={expiations}
         setExpiations={setExpiations}
+        suburb={suburb}
+        setSuburb={setSuburb}
+        offenceCodes={offenceCodes}
+        setOffenceCodes={setOffenceCodes}
+        startTime={startTime}
+        setStartTime={setStartTime}
+        endTime={endTime}
+        setEndTime={setEndTime}
       />
       <FilterMap />
       <SuggestionPanel locations={expiationStats} />

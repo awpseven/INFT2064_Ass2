@@ -1,5 +1,6 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import Dashboard from '../views/dashboard'
+import Report from '../views/report'
 import Login from './../views/login'
 import Register from '../views/register'
 import { Layout } from '../components/layout'
@@ -13,6 +14,10 @@ const Routes = () => {
         {
           path: '/',
           element: <Dashboard />,
+        },
+        {
+          path: '/report',
+          element: <Report />,
         },
       ],
     },
