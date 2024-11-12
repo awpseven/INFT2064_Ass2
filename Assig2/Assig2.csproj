@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="a2reactapp\**" />
+    <Content Remove="a2reactapp\**" />
+    <EmbeddedResource Remove="a2reactapp\**" />
+    <None Remove="a2reactapp\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Controllers\RegionsController.cs" />
   </ItemGroup>
 

@@ -13,15 +13,15 @@ function ReportPanel({ locations, chooseIds }) {
       (l) => locationIds.indexOf(parseInt(l.locationId)) > -1
     )
 
-    if (locationNum === 0) {
+    if (locationIds.length === 0) {
       return `There is no locations can choose.`
     }
 
-    if (locationNum === 1) {
+    if (locationIds.length === 1) {
       const location = locations[0]
-      const roadName = location.roadName
-      const roadType = location.roadType
-      const cameraType1 = location.cameraType1
+      const roadName = location?.roadName
+      const roadType = location?.roadType
+      const cameraType1 = location?.cameraType1
       return (
         <p>
           There is only one place can choose, is road {roadName}, which road
@@ -33,14 +33,14 @@ function ReportPanel({ locations, chooseIds }) {
         <div>
           <p>The following two locations are selected:</p>
           <li>
-            Road {locations[0].roadName}, which road type is{' '}
-            {locations[0].roadType}, the camera type is{' '}
-            {locations[0].cameraType1}.
+            Road {locations[0]?.roadName}, which road type is{' '}
+            {locations[0]?.roadType}, the camera type is{' '}
+            {locations[0]?.cameraType1}.
           </li>
           <li>
-            Road {locations[1].roadName}, which road type is{' '}
-            {locations[1].roadType}, the camera type is{' '}
-            {locations[1].cameraType1}.
+            Road {locations[1]?.roadName}, which road type is{' '}
+            {locations[1]?.roadType}, the camera type is{' '}
+            {locations[1]?.cameraType1}.
           </li>
         </div>
       )

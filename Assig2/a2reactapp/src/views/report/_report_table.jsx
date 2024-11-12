@@ -66,30 +66,30 @@ function ReportTable({ data, suburb, startTime, endTime, offenceCodes }) {
         <table>
           <thead>
             <tr>
-              <th>Location ID</th>
-              <th>Road Name</th>
-              <th>Road Type</th>
-              <th>Camera Type</th>
-              <th>Total Offences Count</th>
-              <th>Total Demerits</th>
-              <th>Total Fee Sum</th>
-              <th>Avg Demerits Per Day</th>
-              <th>Avg Fee Per Day</th>
+              <th className="border p-2">Location ID</th>
+              <th className="border p-2">Road Name</th>
+              <th className="border p-2">Road Type</th>
+              <th className="border p-2">Camera Type</th>
+              <th className="border p-2">Total Offences Count</th>
+              <th className="border p-2">Total Demerits</th>
+              <th className="border p-2">Total Fee Sum</th>
+              <th className="border p-2">Avg Demerits Per Day</th>
+              <th className="border p-2">Avg Fee Per Day</th>
             </tr>
           </thead>
           <tbody>
             {data &&
               data.map((d, index) => (
                 <tr key={index}>
-                  <td>{d.locationId}</td>
-                  <td>{d.roadName}</td>
-                  <td>{d.roadType}</td>
-                  <td>{d.cameraType1}</td>
-                  <td>{d.totalOffencesCount}</td>
-                  <td>{d.totalDemerits}</td>
-                  <td>{d.totalFeeSum}</td>
-                  <td>{d.avgDemeritsPerDay}</td>
-                  <td>{d.avgFeePerDay}</td>
+                  <td className="border p-2">{d.locationId}</td>
+                  <td className="border p-2">{d.roadName}</td>
+                  <td className="border p-2">{d.roadType}</td>
+                  <td className="border p-2">{d.cameraType1}</td>
+                  <td className="border p-2">{d.totalOffencesCount}</td>
+                  <td className="border p-2">{d.totalDemerits}</td>
+                  <td className="border p-2">{d.totalFeeSum}</td>
+                  <td className="border p-2">{d.avgDemeritsPerDay}</td>
+                  <td className="border p-2">{d.avgFeePerDay}</td>
                 </tr>
               ))}
           </tbody>

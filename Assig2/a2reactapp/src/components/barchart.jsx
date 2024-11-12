@@ -9,11 +9,20 @@ const BarChart = ({ data, yLabel }) => {
       return
     }
 
+    // 先获取当前的svg元素
+    let svg = d3.select(svgRef.current)
+
+    // 清空svg中之前绘制的与图表相关的元素，这里以类名来区分（你可以根据实际情况调整选择器）
+    svg.selectAll('rect.bar').remove()
+    svg.selectAll('text.bar-text').remove()
+    svg.selectAll('line').remove()
+    svg.selectAll('text').remove()
+    svg.selectAll('g').remove()
+
     // sort values by y desc
     const sortedData = data.sort((a, b) => b.y - a.y)
 
-    const svg = d3.select(svgRef.current)
-    const margin = { top: 20, right: 20, bottom: 30, left: 60 }
+    const margin = { top: 20, right: 20, bottom: 30, left: 80 }
     const width = +svg.attr('width') - margin.left - margin.right
     const height = +svg.attr('height') - margin.top - margin.bottom
 
@@ -58,7 +67,7 @@ const BarChart = ({ data, yLabel }) => {
       .attr('class', 'bar-text')
       .text((d) => `${d.y}`)
       .attr('transform', `translate(${margin.left},${margin.top})`)
-      .attr('x', (d) => x(d.x) + x.bandwidth() / 2 - 3)
+      .attr('x', (d) => x(d.x) + x.bandwidth() / 4)
       .attr('y', (d) => y(d.y) - 3)
       .style('fill', 'black')
 
@@ -79,7 +88,7 @@ const BarChart = ({ data, yLabel }) => {
 
     svg
       .append('text')
-      .attr('x', width - 200)
+      .attr('x', width - 300)
       .attr('y', y(avgYValue + maxY * 0.01))
       .text(`Average ${yLabel}: ${avgYValue}`)
       .attr('transform', `translate(${margin.left},${margin.top})`)
@@ -89,7 +98,7 @@ const BarChart = ({ data, yLabel }) => {
     svg
       .append('text')
       .attr('x', -(height / 2) - margin.left)
-      .attr('y', margin.top / 2.4)
+      .attr('y', margin.top / 2.4 + 10)
       .attr('transform', 'rotate(-90)')
       .attr('text-anchor', 'middle')
       .text(`${yLabel}`)

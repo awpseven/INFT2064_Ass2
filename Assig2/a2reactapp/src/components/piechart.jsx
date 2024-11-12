@@ -32,8 +32,15 @@ const PieChart = ({ data, yLabel }) => {
       }
     }
 
-    var svg = d3
-      .select(svgRef.current)
+    // 先获取当前的svg元素
+    var svg = d3.select(svgRef.current)
+
+    // 清空svg中之前绘制的与饼图相关的元素，这里以选择器来区分相关元素（可根据实际情况优化选择器更精准清除）
+    svg.selectAll('path').remove()
+    svg.selectAll('polyline').remove()
+    svg.selectAll('text').remove()
+
+    svg = svg
       .append('svg')
       .attr('width', width)
       .attr('height', height)
@@ -126,7 +133,7 @@ const PieChart = ({ data, yLabel }) => {
 
   return (
     <div>
-      <svg width="800" height="600" ref={svgRef}></svg>
+      <svg width="500" height="500" ref={svgRef}></svg>
       <p>{zeroMessage}</p>
     </div>
   )
