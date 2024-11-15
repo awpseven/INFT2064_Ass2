@@ -2,6 +2,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import ReportPanel from './_report_panel'
 import ReportTable from './_report_table'
+import ReportMap from './_report_map'
 import { Icon } from '@iconify-icon/react'
 import BarCharts from '../dashboard/_barcharts'
 import PieCharts from '../dashboard/_piecharts'
@@ -166,6 +167,10 @@ function Report() {
         Back to Dashboard
       </Link>
 
+      <ReportMap
+        locations={expiationStats}
+        suburb={searchParams.get('suburb')}
+      />
       <ReportPanel locations={expiationStats} chooseIds={chooseIds} />
 
       <div class="md:flex">

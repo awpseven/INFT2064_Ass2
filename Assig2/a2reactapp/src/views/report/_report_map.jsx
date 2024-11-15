@@ -10,7 +10,7 @@ import {
 } from '@vis.gl/react-google-maps'
 import React from 'react'
 
-function FilterMap({ locations, suburb }) {
+function ReportMap({ locations, suburb }) {
   const [coordinates, setCoordinates] = useState([]) // 保存地址对应的坐标信息，格式为[{lat: xxx, lng: xxx, addr: '具体地址', rank: 数字, info: '详细信息'},...]
   const [selectedMarker, setSelectedMarker] = useState(null) // 用于记录当前选中的标记
   const [center, setCenter] = useState({ lat: -33.860664, lng: 151.208138 })
@@ -127,4 +127,4 @@ function FilterMap({ locations, suburb }) {
   )
 }
 
-export default FilterMap
+export default ReportMap

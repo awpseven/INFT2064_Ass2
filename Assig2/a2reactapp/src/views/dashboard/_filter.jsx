@@ -65,7 +65,7 @@ function Filter({
       })
       .catch((e) => {
         console.log(e)
-        alert('Load suburbs failed!')
+        // alert('Load suburbs failed!')
       })
   }, [])
 
@@ -94,7 +94,7 @@ function Filter({
       })
       .catch((e) => {
         console.log(e)
-        alert('Load cameras failed!')
+        // alert('Load cameras failed!')
       })
   }
 

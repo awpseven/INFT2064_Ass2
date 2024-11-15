@@ -67,7 +67,7 @@ function Dashboard() {
         endTime={endTime}
         setEndTime={setEndTime}
       />
-      <FilterMap />
+      <FilterMap locations={expiationStats} suburb={suburb} />
       <SuggestionPanel locations={expiationStats} />
 
       <div class="md:flex">

@@ -6,12 +6,19 @@ import 'react-toastify/dist/ReactToastify.css'
 import reportWebVitals from './reportWebVitals'
 import Routes from './routes'
 import AuthProvider from './utils/auth'
+import { APIProvider } from '@vis.gl/react-google-maps'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <React.StrictMode>
     <AuthProvider>
-      <Routes />
+      <APIProvider
+        apiKey={'AIzaSyAnQR_NvQRceJ4gWfcf503f6bCJqfgZc2c'}
+        onLoad={() => console.log('Maps API has loaded.')}
+      >
+        <Routes />
+      </APIProvider>
+
       <ToastContainer />
     </AuthProvider>
   </React.StrictMode>
